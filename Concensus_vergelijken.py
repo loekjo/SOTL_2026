@@ -48,9 +48,9 @@ def loadtests(filelist):
     return df_list
 
 
-post_covid_test_filepath = ["./Ronde6/2022_concenus.csv", "./Ronde6/2023_concenus.csv", "./Ronde6/2024_concensus.csv",
-                            "./Ronde6/2025_concensus.csv", "./Ronde5/2026_concensus.csv"]
-pre_covid_test_filepath = ["./Ronde6/2017_concensus.csv", "./Ronde6/2018_concencus.csv", "./Ronde6/2019_concensus.csv"]
+post_covid_test_filepath = ["test1.csv", "test2.csv", "test3.csv",
+                            "test4.csv", "test5.csv"]
+pre_covid_test_filepath = ["test6.csv", "test7.csv", "test8.csv"]
 
 pre_covid_test = loadtests(pre_covid_test_filepath)
 post_covid_test = loadtests(post_covid_test_filepath)
