@@ -8,14 +8,14 @@ from statsmodels.stats.inter_rater import fleiss_kappa, aggregate_raters
 
 # importing csv into pandas dataframe
 # note: remove the headers first before reading the
-Anneke_df = pd.read_csv('./Ronde6/2018_AVH.csv', header=0, delimiter=';')
-Tom_df = pd.read_csv('./Ronde6/2018_Thom.csv', header=0, delimiter=';')
-Loek_df = pd.read_csv('./Ronde6/2018_Loek.csv', header=0, delimiter=';')
+rater1_df = pd.read_csv('rater1.csv', header=0, delimiter=';')
+rater2_df = pd.read_csv('rater2.csv', header=0, delimiter=';')
+rater3_df = pd.read_csv('rater3.csv', header=0, delimiter=';')
 
 def calculate_ac2(scores_df):
     count_matrix, categories = aggregate_raters(scores_df)
     n_subjects, n_categories = count_matrix.shape
-    n_raters = 3  # Thom, Loek, Anneke
+    n_raters = 3  
 
     # 1. Mathematically Exact Quadratic Weights
     weight_mat = np.zeros((n_categories, n_categories))
@@ -55,31 +55,31 @@ def calculate_ac2(scores_df):
 # 1. Combine the DataFrames
 # Note: Ensure the 'SOLO category' columns contain actual numbers (integers/floats)
 qf_df = pd.DataFrame({
-    'Question': Anneke_df['question#'],
-    'Anneke': Anneke_df['Question format'],
-    'Thom': Tom_df['Question format'],
-    'Loek': Loek_df['Question format']
+    'Question': rater1_df['question#'],
+    'rater1': rater1_df['Question format'],
+    'rater2': rater2_df['Question format'],
+    'rater3': rater3_df['Question format']
 })
 # Note: Ensure the 'SOLO category' columns contain actual numbers (integers/floats)
 cd_df = pd.DataFrame({
-    'Question': Anneke_df['question#'],
-    'Anneke': Anneke_df['Cognitive demand'],
-    'Thom': Tom_df['Cognitive demand'],
-    'Loek': Loek_df['Cognitive demand']
+    'Question': rater1_df['question#'],
+    'rater1': rater1_df['Cognitive demand'],
+    'rater2': rater2_df['Cognitive demand'],
+    'rater3': rater3_df['Cognitive demand']
 })
 
 # Note: Ensure the 'SOLO category' columns contain actual numbers (integers/floats)
 ct_df = pd.DataFrame({
-    'Question': Anneke_df['question#'],
-    'Anneke': Anneke_df['Course Theme'],
-    'Thom': Tom_df['Course Theme'],
-    'Loek': Loek_df['Course Theme']
+    'Question': rater1_df['question#'],
+    'rater1': rater1_df['Course Theme'],
+    'rater2': rater2_df['Course Theme'],
+    'rater3': rater3_df['Course Theme']
 })
 
 # Select ONLY the columns containing the scores (exclude the 'Question' column)
-scores_qf_df = qf_df[['Thom', 'Loek', 'Anneke']]
-scores_cd_df = cd_df[['Thom', 'Loek', 'Anneke']]
-scores_ct_df = ct_df[['Thom', 'Loek', 'Anneke']]
+scores_qf_df = qf_df[['rater2', 'rater3', 'rater1']]
+scores_cd_df = cd_df[['rater2', 'rater3', 'rater1']]
+scores_ct_df = ct_df[['rater2', 'rater3', 'rater1']]
 
 # 2. Transpose the data (.T) so rows = raters and cols = questions, then convert to a numpy array
 reliability_qf = scores_qf_df.T.to_numpy()
@@ -110,7 +110,7 @@ cd_df_melted = cd_df.melt(id_vars=['Question'], var_name='Person', value_name='C
 ct_df_melted = ct_df.melt(id_vars=['Question'], var_name='Person', value_name='Course Theme')
 
 # 3. Create manual horizontal offsets for each person
-offsets = {'Anneke': -0.1, 'Thom': 0, 'Loek': 0.1}
+offsets = {'rater1': -0.1, 'rater2': 0, 'rater3': 0.1}
 # Create a new column by adding the offset to the actual Score
 qf_df_melted['Offset_Score'] = qf_df_melted.apply(
     lambda row: float(row['Question format']) + offsets[row['Person']], axis=1
