@@ -8,23 +8,23 @@ from statsmodels.stats.inter_rater import fleiss_kappa, aggregate_raters
 
 # importing csv into pandas dataframe
 # note: remove the headers first before reading the
-Anneke_df = pd.read_csv('./Ronde6/2022_AVH.csv', header=0, delimiter=';')
-Tom_df = pd.read_csv('./Ronde6/2022_Thom.csv', header=0, delimiter=';')
-Loek_df = pd.read_csv('./Ronde6/2022_Loek.csv', header=0, delimiter=';')
+rater1_df = pd.read_csv('rater1.csv', header=0, delimiter=';')
+rater2 = pd.read_csv('rater2.csv', header=0, delimiter=';')
+rater3 = pd.read_csv('rater3.csv', header=0, delimiter=';')
 consensus_df = pd.read_csv('./Ronde6/2022_concenus.csv', header=0, delimiter=';')
 
 # 1. Combine the DataFrames
 # Note: Ensure the 'SOLO category' columns contain actual numbers (integers/floats)
 solo_df = pd.DataFrame({
     'Question': Anneke_df['question#'],
-    'Anneke': Anneke_df['SOLO category'],
-    'Thom': Tom_df['SOLO category'],
-    'Loek': Loek_df['SOLO category'],
+    'rater1: rater1_df['SOLO category'],
+    'rater2': rater2_df['SOLO category'],
+    'rater3': rater3_df['SOLO category'],
     "consensus": consensus_df["SOLO category"]
 })
 
 # Select ONLY the columns containing the scores (exclude the 'Question' column)
-scores_df = solo_df[['Thom', 'Loek', 'Anneke']]
+scores_df = solo_df[['rater1', 'rater2', 'rater3']]
 
 # 2. Transpose the data (.T) so rows = raters and cols = questions, then convert to a numpy array
 reliability_df = scores_df.T.to_numpy()
@@ -32,7 +32,7 @@ reliability_df = scores_df.T.to_numpy()
 # 1. Transform the raw ratings into a category count matrix
 count_matrix, categories = aggregate_raters(scores_df)
 n_subjects, n_categories = count_matrix.shape
-n_raters = 3  # Thom, Loek, Anneke
+n_raters = 3  
 
 # 1. Mathematically Exact Quadratic Weights
 weight_mat = np.zeros((n_categories, n_categories))
@@ -93,12 +93,12 @@ Solo_df_melted['Offset_Score'] = Solo_df_melted.apply(
 # 4. Create the plot using SCATTERPLOT
 plt.figure(figsize=(8, 10))
 
-sns.scatterplot(  # <--- Changed from stripplot to scatterplot
+sns.scatterplot(  
     data=Solo_df_melted,
     y='Question',
-    x='Offset_Score',  # <--- Fixed the capital 'S' here to match!
+    x='Offset_Score',  
     hue='Person',
-    s=80,              # 's' is used for dot size in scatterplot (instead of 'size')
+    s=80,              
     alpha=0.8,
     linewidth=1
 )
