@@ -11,7 +11,7 @@ from statsmodels.stats.inter_rater import fleiss_kappa, aggregate_raters
 rater1_df = pd.read_csv('rater1.csv', header=0, delimiter=';')
 rater2 = pd.read_csv('rater2.csv', header=0, delimiter=';')
 rater3 = pd.read_csv('rater3.csv', header=0, delimiter=';')
-consensus_df = pd.read_csv('./Ronde6/2022_concenus.csv', header=0, delimiter=';')
+consensus_df = pd.read_csv('concenus.csv', header=0, delimiter=';')
 
 # 1. Combine the DataFrames
 # Note: Ensure the 'SOLO category' columns contain actual numbers (integers/floats)
