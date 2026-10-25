@@ -16,7 +16,7 @@ consensus_df = pd.read_csv('./Ronde6/2022_concenus.csv', header=0, delimiter=';'
 # 1. Combine the DataFrames
 # Note: Ensure the 'SOLO category' columns contain actual numbers (integers/floats)
 solo_df = pd.DataFrame({
-    'Question': Anneke_df['question#'],
+    'Question': rater1_df['question#'],
     'rater1: rater1_df['SOLO category'],
     'rater2': rater2_df['SOLO category'],
     'rater3': rater3_df['SOLO category'],
@@ -82,8 +82,8 @@ print(f"Fleiss's kappa: {fleiss}")
 Solo_df_melted = solo_df.melt(id_vars=['Question'], var_name='Person', value_name='Solo category')
 
 # 3. Create manual horizontal offsets for each person
-offsets = {'Anneke': -0.15, 'Thom': -0.05, 'Loek': 0.05, 'consensus': 0.15}
-# offsets = {'Anneke': -0.1, 'Thom': 0, 'Loek': 0.1}
+offsets = {'rater1': -0.15, 'rater2': -0.05, 'rater3': 0.05, 'consensus': 0.15}
+# offsets = {'rater1': -0.1, 'rater2': 0, 'rater3': 0.1}
 # Create a new column by adding the offset to the actual Score
 # Make sure the 'S' is capitalized here!
 Solo_df_melted['Offset_Score'] = Solo_df_melted.apply(
@@ -115,11 +115,11 @@ for y in range(len(solo_df['Question']) - 1):
 # 4. Add the Krippendorff Alpha text box to the plot
 ax = plt.gca() # Get the current axes
 ax.text(
-    0.2, 0.99, # X and Y position (0.95 is far right, 0.05 is near the bottom)
+    0.2, 0.99, # X and Y position (0.95 is far right, 0.05 is near the botrater2)
     f"Krippendorff's \u03B1: {alpha:.3f}\nFleiss kappa: {fleiss:.3f}\nGwet's AC2 {gwet_ac2:.3f}", # The text to display (\u03B1 is the Greek alpha symbol)
     transform=ax.transAxes, # This tells Matplotlib to use relative plot coordinates (0 to 1)
     fontsize=12,
-    verticalalignment='bottom',
+    verticalalignment='botrater2',
     horizontalalignment='right',
     bbox=dict(boxstyle='round,pad=0.5', facecolor='white', edgecolor='gray', alpha=0.9) # Creates the box
 )
